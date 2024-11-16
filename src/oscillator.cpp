@@ -1,8 +1,9 @@
 #include "oscillator.hpp"
 
-Oscillator::Oscillator(float Hz, WaveType type):
+Oscillator::Oscillator(float Hz, uint32_t octave, WaveType type):
 m_Hz(Hz), m_wave_type(type)
 {
+    set_octave(octave);
     set_wave_table();
     set_freq(m_Hz); 
     sprintf(m_paData.message, "No Message" );
@@ -13,10 +14,15 @@ paData& Oscillator::get_paData()
     return m_paData;
 }
 
+void Oscillator::set_octave(uint32_t octave)
+{
+    m_octave = octave;
+}
+
 void Oscillator::set_freq(float Hz)
 {
     m_Hz = Hz;
-    m_paData.phaseIncrement = (m_Hz * AudioSettings::TABLE_SIZE) / AudioSettings::SAMPLE_RATE;  
+    m_paData.phaseIncrement = (m_Hz* m_octave * AudioSettings::TABLE_SIZE) / AudioSettings::SAMPLE_RATE;  
 }
 
 float Oscillator::get_current_freq()

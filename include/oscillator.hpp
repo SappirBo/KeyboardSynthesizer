@@ -14,6 +14,7 @@ private:
     WaveType m_wave_type;
     float m_Hz;
     paData m_paData;
+    int m_octave;
 
     void init_paData();
 
@@ -25,12 +26,13 @@ private:
     void set_sawtooth_wave_table();
     void set_empty_table();
 public:
-    Oscillator(float Hz, WaveType);
+    Oscillator(float Hz, uint32_t octave,  WaveType type);
     ~Oscillator() = default;
 
     paData& get_paData();
 
     void set_freq(float);
+    void set_octave(uint32_t);
     float get_current_freq();
 };
 
