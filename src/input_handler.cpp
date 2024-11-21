@@ -9,7 +9,7 @@ InputHandler::~InputHandler()
 {
 }
 
-int InputHandler::get_current_val()
+int32_t InputHandler::get_current_val()
 {
     return m_current_val;
 }
@@ -37,27 +37,27 @@ char InputHandler::getch() {
     return buf;
 }
 
-bool InputHandler::operator>(const int& other) const
+bool InputHandler::operator>(const int32_t& other) const
 {
     return m_current_val > other;
 }
 
-bool InputHandler::operator>=(const int& other) const
+bool InputHandler::operator>=(const int32_t& other) const
 {
     return m_current_val >= other;
 }
 
-bool InputHandler::operator<(const int& other) const
+bool InputHandler::operator<(const int32_t& other) const
 {
     return m_current_val < other;
 }
 
-bool InputHandler::operator<=(const int& other) const
+bool InputHandler::operator<=(const int32_t& other) const
 {
     return m_current_val <= other;
 }
 
-bool InputHandler::operator==(const int& other) const
+bool InputHandler::operator==(const int32_t& other) const
 {
     return m_current_val == other;
 }

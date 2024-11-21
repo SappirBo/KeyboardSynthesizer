@@ -5,7 +5,7 @@
 class InputHandler
 {
 private:
-    int m_current_val{-1}; 
+    int32_t m_current_val{-1}; 
 
     char getch();
 
@@ -14,13 +14,13 @@ public:
     ~InputHandler();
     
     void get_input_from_user();
-    int get_current_val();
+    int32_t get_current_val();
 
-    bool operator>(const int& other) const;
-    bool operator>=(const int& other) const;
-    bool operator<(const int& other) const;
-    bool operator<=(const int& other) const;
-    bool operator==(const int& other) const;
+    bool operator>(const int32_t& other) const;
+    bool operator>=(const int32_t& other) const;
+    bool operator<(const int32_t& other) const;
+    bool operator<=(const int32_t& other) const;
+    bool operator==(const int32_t& other) const;
 };
 
 
