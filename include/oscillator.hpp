@@ -10,67 +10,85 @@
 
 class Oscillator {
 private:
-  WaveType m_wave_type;
-  float m_Hz;
-  paData m_paData;
-  int m_octave;
-  float m_targetHz;
+    /** Oscillator Wave type*/
+    WaveType m_wave_type;
 
-  /**
-   * Portamento (Glide)
-   * Smaller Value: Results in a slower glide (longer portamento time).
-   * Larger Value : Leads to a faster transition (shorter glide time).
-   */
-  float m_freqSmoothing{0.01f};
-  float m_amplitude{0.0f};
-  float m_targetAmplitude{0.0f};
+    /** Current Hz freq (might be in the middle of a glide)*/
+    float m_Hz;
+    paData m_paData;
 
-  /**
-   * Controls how quickly the oscillator's current amplitude (m_amplitude)
-   * transitions to the target amplitude (m_targetAmplitude).
-   *
-   *    Smaller Value:Results in a slower change (longer attack/release time).
-   *    Larger Value:Leads to a faster change (shorter attack/release time).
-   */
-  float m_ampSmoothing{0.000001f};
+    /**Octave of this oscillator */
+    int m_octave;
 
-  void init_paData();
+    /**target - what freq is current setted at the  Synth*/
+    float m_targetHz;
 
-  void set_wave_table();
+    /**
+     * Portamento (Glide)
+     * Smaller Value: Results in a slower glide (longer portamento time).
+     * Larger Value : Leads to a faster transition (shorter glide time).
+     */
+    float m_freqSmoothing{0.01f};
 
-  void set_sine_wave_table();
-  void set_square_wave_table();
-  void set_triabgle_wave_table();
-  void set_sawtooth_wave_table();
-  void set_empty_table();
+    /**The current amplitude (volume) of the oscillator. */
+    float m_amplitude{0.0f};
+    /**The desired amplitude the oscillator aims to reach. */
+    float m_targetAmplitude{0.0f};
+
+    /**
+     *The amplitude smoothing factor for the oscillator.
+     *Smaller Value: Results in a slower change (longer attack/release time).
+     *Larger Value: Leads to a faster change (shorter attack/release time).
+     */
+    float m_ampSmoothing{0.000001f};
+
+    void init_paData();
+
+    void set_wave_table();
+
+    void set_sine_wave_table();
+    void set_square_wave_table();
+    void set_triabgle_wave_table();
+    void set_sawtooth_wave_table();
+    void set_empty_table();
 
 public:
-  Oscillator(float Hz, uint32_t octave, WaveType type);
-  ~Oscillator() = default;
+    Oscillator(float Hz, uint32_t octave, WaveType type);
+    ~Oscillator() = default;
 
-  paData &get_paData();
+    paData &get_paData();
 
-  void set_freq(float);
-  void set_octave(uint32_t);
-  float get_current_freq();
+    void set_freq(float);
+    void set_octave(uint32_t);
+    float get_current_freq();
 
-  void update_freq() {
+    void update_freq() {
     float freqDiff = m_targetHz - m_Hz;
     m_Hz += freqDiff * m_freqSmoothing;
     m_paData.phaseIncrement =
         (m_Hz * AudioSettings::TABLE_SIZE) / AudioSettings::SAMPLE_RATE;
-  }
+    }
 
-  void note_on() { m_targetAmplitude = 1.0f; }
+    /**
+     * Maximum amplitude
+     */
+    void note_on() { m_targetAmplitude = 1.0f; }
 
-  void note_off() { m_targetAmplitude = 0.0f; }
 
-  void update_amplitude() {
-    float ampDiff = m_targetAmplitude - m_amplitude;
-    m_amplitude += ampDiff * m_ampSmoothing;
-  }
+    /**
+     * Silence
+     */
+    void note_off() { m_targetAmplitude = 0.0f; }
 
-  float get_amplitude() const { return m_amplitude; }
+    /**
+     *  Amplitude Control: according note_on/ note_off
+     */
+    void update_amplitude() {
+        float ampDiff = m_targetAmplitude - m_amplitude;
+        m_amplitude += ampDiff * m_ampSmoothing;
+    }
+
+    float get_amplitude() const { return m_amplitude; }
 };
 
 #endif
