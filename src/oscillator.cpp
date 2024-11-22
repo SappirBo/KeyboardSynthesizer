@@ -13,7 +13,7 @@ paData &Oscillator::get_paData() { return m_paData; }
 void Oscillator::set_octave(uint32_t octave) { m_octave = octave; }
 
 void Oscillator::set_freq(float Hz) {
-    m_targetHz = Hz;
+    m_targetHz = Hz * m_octave;
 }
 
 float Oscillator::get_current_freq() { 
@@ -84,12 +84,28 @@ void Oscillator::set_empty_table() {
   }
 }
 
-void Oscillator::set_osc_attack_time(float attackTime) {
-    m_attack_time = (attackTime > 0.0f) ? attackTime : 0.01f;
+void Oscillator::set_osc_attack_time(float attack_time) {
+    m_attack_time = (attack_time > 0.0f) ? attack_time : 0.01f;
 }
 
-void Oscillator::set_release_time(float releaseTime) {
-    m_release_time =  (releaseTime > 0.0f) ? releaseTime : 0.001f;
+void Oscillator::set_osc_decay_level(float level)
+{
+  if(level >= 1.0f){m_decay_level = 1.0f;}
+  else if(level <= 0.0f){m_decay_level = 0.0f;}
+  else{m_decay_level = level;}
+}
+
+void Oscillator::set_osc_decay_time(float decay_time) {
+    m_decay_time =  (decay_time > 0.0f) ? decay_time : 0.001f;
+}
+
+void Oscillator::set_osc_sustain_time(float sustain_time) {
+    m_sustain_time =  (sustain_time > 0.0f) ? sustain_time : 0.001f;
+
+}
+
+void Oscillator::set_osc_release_time(float release_time) {
+    m_release_time =  (release_time > 0.0f) ? release_time : 0.001f;
 }
 
 void Oscillator::note_on() {
@@ -114,17 +130,34 @@ void Oscillator::update_amplitude() {
             m_amplitude += m_amp_increment;
             if (m_amplitude >= m_target_amplitude) {
                 m_amplitude = m_target_amplitude;
+                m_target_amplitude = m_decay_level;
+                m_amp_increment = 1.0f / (m_decay_time * AudioSettings::SAMPLE_RATE);
+                m_envelope_stage = EnvelopeStage::Decay;
+            }
+            break;
+
+        case EnvelopeStage::Decay:
+            m_amplitude -= m_amp_increment;
+            if (m_amplitude <= m_target_amplitude) {
+                m_amplitude = m_target_amplitude;
+                m_sustain_counter = 0;
+                m_amp_increment = 1.0f / (m_sustain_time * AudioSettings::SAMPLE_RATE);
                 m_envelope_stage = EnvelopeStage::Sustain;
             }
             break;
 
         case EnvelopeStage::Sustain:
             // Hold the amplitude at the target level
-            m_amplitude = m_target_amplitude;
+            m_sustain_counter += m_amp_increment;
+            if(m_sustain_counter >= m_sustain_target){
+              m_amp_increment = (m_amplitude) / (m_release_time * AudioSettings::SAMPLE_RATE);
+              m_target_amplitude = 0.0;
+              m_envelope_stage = EnvelopeStage::Release;
+            }
             break;
 
         case EnvelopeStage::Release:
-            m_amplitude += m_amp_increment;
+            m_amplitude -= m_amp_increment;
             if (m_amplitude <= m_target_amplitude) {
                 m_amplitude = m_target_amplitude;
                 m_envelope_stage = EnvelopeStage::Off;
@@ -138,4 +171,8 @@ void Oscillator::update_amplitude() {
     }
 }
 
-
+void Oscillator::update_freq() {
+    float freqDiff = m_targetHz - m_Hz;
+    m_Hz += freqDiff * m_freqSmoothing;
+    m_paData.phaseIncrement = (m_Hz * AudioSettings::TABLE_SIZE) / AudioSettings::SAMPLE_RATE;
+}

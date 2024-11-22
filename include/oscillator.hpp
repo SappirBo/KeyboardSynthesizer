@@ -45,13 +45,21 @@ private:
     /**Attack time in seconds */
     float m_attack_time{0.01f};
 
+    float m_decay_time{1.0f};
+    float m_decay_level{1.0f}; // [1-0]
+
+    /**Sustain time in seconds */
+    float m_sustain_time{1.0f};
+    float m_sustain_counter{1.0f};
+    float m_sustain_target{1.0f};
+
     /**Release time in seconds */
     float m_release_time{0.1f};
     
     /**Amplitude increment per sample */
     float m_amp_increment{0.0f};   
 
-    enum class EnvelopeStage { Off, Attack, Sustain, Release };
+    enum class EnvelopeStage { Off, Attack, Decay, Sustain, Release };
     EnvelopeStage m_envelope_stage{EnvelopeStage::Off};
 
     void init_paData();
@@ -72,29 +80,23 @@ public:
     void set_octave(uint32_t);
     float get_current_freq();
 
-    void update_freq() {
-        float freqDiff = m_targetHz - m_Hz;
-        m_Hz += freqDiff * m_freqSmoothing;
-        m_paData.phaseIncrement = (m_Hz * AudioSettings::TABLE_SIZE) / AudioSettings::SAMPLE_RATE;
-    }
-
-    /**
-     * Maximum amplitude
-     */
+    /** Maximum amplitude */
     void note_on();
 
-    /**
-     * Silence
-     */
+    /** Silence*/
     void note_off();
 
-    void set_osc_attack_time(float attackTime);
-    void set_release_time(float releaseTime);
+    void set_osc_attack_time(float);
+    void set_osc_decay_level(float);
+    void set_osc_decay_time(float);
+    void set_osc_sustain_time(float);
+    void set_osc_release_time(float);
 
     /**
      *  Amplitude Control: according note_on/ note_off
      */
     void update_amplitude();
+    void update_freq();
 
     float get_amplitude() const { return m_amplitude; }
 };

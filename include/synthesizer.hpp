@@ -8,7 +8,10 @@ private:
     paData m_synth_paData;
     float m_synth_freq{16.35};
     std::mutex m_mutex;
-    float m_attack_time{0.01f};   
+    float m_attack_time{0.01f};
+    float m_deacy_level{0.01f};
+    float m_deacy_time{0.01f};
+    float m_sustain_time{1.00f};   
     float m_release_time{0.1f};       
 
 public:
@@ -18,8 +21,12 @@ public:
     void add_oscillator(uint32_t octave, WaveType type);
     void remove_oscillator(size_t index);
 
-    void set_attack_time(float attackTime);
-    void set_release_time(float releaseTime);
+    void set_attack_time(float);
+    void set_decay_time(float);
+    void set_sustain_time(float);
+    void set_release_time(float);
+
+    void set_decay_level(float);
 
     void note_on();
     void note_off();
@@ -65,13 +72,39 @@ void Synthesizer::set_attack_time(float attack_time) {
     }
 }
 
+void Synthesizer::set_decay_level(float deacy_level) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_deacy_level = deacy_level;
+    for (auto& osc : m_oscillators) {
+        osc.set_osc_decay_level(m_deacy_level);
+    }
+} 
+
+void Synthesizer::set_decay_time(float deacy_time) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_deacy_time = deacy_time;
+    for (auto& osc : m_oscillators) {
+        osc.set_osc_decay_time(m_deacy_time);
+    }
+}
+
 void Synthesizer::set_release_time(float release_time) {
     std::lock_guard<std::mutex> lock(m_mutex);
     m_release_time = release_time;
 
     // Update release time for all oscillators
     for (auto& osc : m_oscillators) {
-        osc.set_release_time(release_time);
+        osc.set_osc_release_time(release_time);
+    }
+}
+
+void Synthesizer::set_sustain_time(float sustain_time) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_sustain_time = sustain_time;
+
+    // Update release time for all oscillators
+    for (auto& osc : m_oscillators) {
+        osc.set_osc_sustain_time(sustain_time);
     }
 }
 
@@ -81,8 +114,6 @@ void Synthesizer::set_synth_freq(float Hz) {
     osc.set_freq(m_synth_freq);
   }
 }
-
-bool flag{false}; 
 
 int32_t Synthesizer::audio_callback(const void *inputBuffer, void *outputBuffer,
                                 unsigned long framesPerBuffer,

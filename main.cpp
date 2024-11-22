@@ -36,47 +36,52 @@ float get_Hz(int32_t input) {
 };
 
 int32_t play_state_loop() {
-    InputHandler input_handler;
-    Synthesizer syn;
-    AudioPlayer::PortAudioPlayer audio_player(&Synthesizer::audio_callback, &syn);
+  InputHandler input_handler;
+  Synthesizer syn;
+  AudioPlayer::PortAudioPlayer audio_player(&Synthesizer::audio_callback, &syn);
 
-    syn.add_oscillator(8, WaveType::SINE);
-    syn.add_oscillator(5, WaveType::SINE);
-    syn.add_oscillator(3, WaveType::TRIANGLE);
-    syn.add_oscillator(2, WaveType::TRIANGLE);
+  syn.add_oscillator(6, WaveType::TRIANGLE);
+  syn.add_oscillator(5, WaveType::SINE);
+  syn.add_oscillator(1, WaveType::SINE);
+  syn.add_oscillator(1, WaveType::TRIANGLE);
 
-    syn.set_attack_time(0.01);
+  syn.set_attack_time(0.1);
+  syn.set_decay_level(0.5);
+  syn.set_decay_time(0.1);
+  syn.set_sustain_time(0.01);
+  syn.set_release_time(0.01);
 
-    audio_player.Initialize();
 
-    audio_player.set_output_params(2);
+  audio_player.Initialize();
 
-    audio_player.open_stream();
+  audio_player.set_output_params(2);
 
-    audio_player.set_stream_finish();
+  audio_player.open_stream();
 
-    bool flag{true};
-    while (flag) {
-    input_handler.get_input_from_user();
-    if (input_handler >= 97 && input_handler <= 122) {
-        if (audio_player.is_stream_active() == false) {
-        audio_player.start_stream();
-        }
-        float Hz = get_Hz(input_handler.get_current_val());
-        syn.set_synth_freq(Hz);
-        syn.note_on();
-    } else {
-        syn.note_off();
-        flag = false;
-        audio_player.stop_stream();
-    }
-    }
+  audio_player.set_stream_finish();
 
-    audio_player.close_stream();
+  bool flag{true};
+  while (flag) {
+  input_handler.get_input_from_user();
+  if (input_handler >= 97 && input_handler <= 122) {
+      if (audio_player.is_stream_active() == false) {
+      audio_player.start_stream();
+      }
+      float Hz = get_Hz(input_handler.get_current_val());
+      syn.set_synth_freq(Hz);
+      syn.note_on();
+  } else {
+      syn.note_off();
+      flag = false;
+      audio_player.stop_stream();
+  }
+  }
 
-    audio_player.terminate_stream();
+  audio_player.close_stream();
 
-    return 0;
+  audio_player.terminate_stream();
+
+  return 0;
 }
 
 int32_t configure_system_loop() { return 0; }
