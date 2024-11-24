@@ -6,8 +6,9 @@ class Synthesizer {
 private:
     std::vector<Oscillator> m_oscillators;
     paData m_synth_paData;
-    float m_synth_freq{16.35};
     std::mutex m_mutex;
+    float m_synth_freq{16.35};
+    float m_synth_glide{0.1};
     float m_attack_time{0.01f};
     float m_deacy_level{0.01f};
     float m_deacy_time{0.01f};
@@ -20,6 +21,8 @@ public:
 
     void add_oscillator(uint32_t octave, WaveType type);
     void remove_oscillator(size_t index);
+
+    void set_glide(float);    
 
     void set_attack_time(float);
     void set_decay_time(float);
@@ -64,6 +67,16 @@ void Synthesizer::note_off() {
   }
 }
 
+void Synthesizer::set_glide(float glide)
+{
+  std::lock_guard<std::mutex> lock(m_mutex);
+  m_synth_glide = glide;
+  for(auto& osc: m_oscillators)
+  {
+    osc.set_osc_glide(m_synth_glide);
+  }
+}
+
 void Synthesizer::set_attack_time(float attack_time) {
     std::lock_guard<std::mutex> lock(m_mutex);
     m_attack_time = attack_time;
@@ -73,11 +86,11 @@ void Synthesizer::set_attack_time(float attack_time) {
 }
 
 void Synthesizer::set_decay_level(float deacy_level) {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    m_deacy_level = deacy_level;
-    for (auto& osc : m_oscillators) {
-        osc.set_osc_decay_level(m_deacy_level);
-    }
+  std::lock_guard<std::mutex> lock(m_mutex);
+  m_deacy_level = deacy_level;
+  for (auto& osc : m_oscillators) {
+      osc.set_osc_decay_level(m_deacy_level);
+  }
 } 
 
 void Synthesizer::set_decay_time(float deacy_time) {

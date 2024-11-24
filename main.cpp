@@ -40,16 +40,18 @@ int32_t play_state_loop() {
   Synthesizer syn;
   AudioPlayer::PortAudioPlayer audio_player(&Synthesizer::audio_callback, &syn);
 
-  syn.add_oscillator(6, WaveType::TRIANGLE);
+  syn.add_oscillator(4, WaveType::TRIANGLE);
   syn.add_oscillator(5, WaveType::SINE);
   syn.add_oscillator(1, WaveType::SINE);
   syn.add_oscillator(1, WaveType::TRIANGLE);
 
-  syn.set_attack_time(0.1);
+  syn.set_glide(0.001);
+
+  syn.set_attack_time(0.01);
   syn.set_decay_level(0.5);
   syn.set_decay_time(0.1);
-  syn.set_sustain_time(0.01);
-  syn.set_release_time(0.01);
+  syn.set_sustain_time(0.3);
+  syn.set_release_time(0.8);
 
 
   audio_player.Initialize();

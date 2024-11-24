@@ -13,7 +13,7 @@ paData &Oscillator::get_paData() { return m_paData; }
 void Oscillator::set_octave(uint32_t octave) { m_octave = octave; }
 
 void Oscillator::set_freq(float Hz) {
-    m_targetHz = Hz * m_octave;
+    m_targetHz = Hz * std::pow(2.0f, static_cast<float>(m_octave));;
 }
 
 float Oscillator::get_current_freq() { 
@@ -175,4 +175,9 @@ void Oscillator::update_freq() {
     float freqDiff = m_targetHz - m_Hz;
     m_Hz += freqDiff * m_freqSmoothing;
     m_paData.phaseIncrement = (m_Hz * AudioSettings::TABLE_SIZE) / AudioSettings::SAMPLE_RATE;
+}
+
+void Oscillator::set_osc_glide(float glide)
+{
+  m_freqSmoothing = (glide > 0.00001 && glide < 1.0) ? glide : ((glide >= 1.0)? 1.0: 0.0001);
 }

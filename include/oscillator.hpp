@@ -76,8 +76,15 @@ public:
 
     paData &get_paData();
 
-    void set_freq(float);
+    /**
+     * Set Osc Octave, range of 0 to 12
+     */
     void set_octave(uint32_t);
+
+    /**
+     * update target frequency, with offset of the Octave.
+     */
+    void set_freq(float);
     float get_current_freq();
 
     /** Maximum amplitude */
@@ -91,6 +98,13 @@ public:
     void set_osc_decay_time(float);
     void set_osc_sustain_time(float);
     void set_osc_release_time(float);
+
+    /**
+     * Set Glide (Portamento) values between [1.0, 0.0001]
+     * Smaller Value: Results in a slower glide (longer portamento time).
+     * Larger Value : Leads to a faster transition (shorter glide time).
+     */
+    void set_osc_glide(float);
 
     /**
      *  Amplitude Control: according note_on/ note_off
