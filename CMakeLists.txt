@@ -27,6 +27,7 @@ set(SOURCES
     src/oscillator.cpp
     src/audio_player.cpp
     src/input_handler.cpp
+    src/synthesizer.cpp
 )
 
 set(HEADERS
@@ -36,6 +37,10 @@ set(HEADERS
     include/input_handler.hpp
     include/pa_data.hpp
     include/audio_settings.hpp
+    include/synth_engine.hpp
+    include/synthesizer.hpp
+    include/synth_state.hpp
+    include/base_loop.hpp
 )
 
 # Add executable target

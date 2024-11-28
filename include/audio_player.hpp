@@ -1,3 +1,6 @@
+#ifndef AUDIO_PLAYER_HPP
+#define AUDIO_PLAYER_HPP
+
 #include "audio_settings.hpp"
 #include "pa_data.hpp"
 #include <cmath>
@@ -37,3 +40,6 @@ public:
 };
 
 } // namespace AudioPlayer
+
+
+#endif 

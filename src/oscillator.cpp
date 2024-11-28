@@ -109,11 +109,11 @@ void Oscillator::set_osc_release_time(float release_time) {
 }
 
 void Oscillator::note_on() {
-    m_amplitude = 0.0f;
-    m_target_amplitude = 1.0f;
-    m_envelope_stage = EnvelopeStage::Attack;
+  m_amplitude = 0.0f;
+  m_target_amplitude = 1.0f;
+  m_envelope_stage = EnvelopeStage::Attack;
 
-    m_amp_increment = (m_target_amplitude) / (m_attack_time * AudioSettings::SAMPLE_RATE);
+  m_amp_increment = (m_target_amplitude) / (m_attack_time * AudioSettings::SAMPLE_RATE);
 }
 
 void Oscillator::note_off() {
@@ -180,4 +180,8 @@ void Oscillator::update_freq() {
 void Oscillator::set_osc_glide(float glide)
 {
   m_freqSmoothing = (glide > 0.00001 && glide < 1.0) ? glide : ((glide >= 1.0)? 1.0: 0.0001);
+}
+
+void Oscillator::getOscDataAsStr(std::ostream& oss){
+  oss << "Octave:" << m_octave << "| Freq: " << m_targetHz ;
 }

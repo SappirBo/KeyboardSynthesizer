@@ -7,6 +7,8 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <sstream>
+
 
 class Oscillator {
 private:
@@ -83,6 +85,7 @@ public:
 
     /**
      * update target frequency, with offset of the Octave.
+     * Formula: Adjusted Frequency = Base Frequency * 2^(Octave Shift)
      */
     void set_freq(float);
     float get_current_freq();
@@ -113,6 +116,8 @@ public:
     void update_freq();
 
     float get_amplitude() const { return m_amplitude; }
+
+    void getOscDataAsStr(std::ostream& oss);
 };
 
 #endif

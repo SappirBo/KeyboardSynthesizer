@@ -1,3 +1,6 @@
+#ifndef INPUT_HANDLER_HPP
+#define INPUT_HANDLER_HPP
+
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
@@ -24,3 +27,4 @@ public:
 };
 
 
+#endif
