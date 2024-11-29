@@ -41,6 +41,7 @@ set(HEADERS
     include/synthesizer.hpp
     include/synth_state.hpp
     include/base_loop.hpp
+    include/play_loop.hpp
 )
 
 # Add executable target
