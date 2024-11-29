@@ -23,7 +23,8 @@ void MainLoop::run_loop()
     std::string str;
     str += "    1. Play\n";
     str += "    2. Configure Synth\n";
-    str += "    3. Out\n";
+    str += "    3. Save / Load Preset\n";
+    str += "    4. Out\n";
     std::cout << str;
 
     char input;
@@ -37,6 +38,9 @@ void MainLoop::run_loop()
         *(m_state.get()) = SynthState::Configure;
         break;
     case '3':
+        *(m_state.get()) = SynthState::Save_Load;
+        break;
+    case '4':
         *(m_state.get()) = SynthState::Out;
         break;
     default:

@@ -8,6 +8,7 @@ enum class SynthState{
     Main,
     Play,
     Configure,
+    Configure_Envelop,
     Save_Load,
     Out,
     Defualt

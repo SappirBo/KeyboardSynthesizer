@@ -49,6 +49,7 @@ public:
      * - 1.1. play mode
      * - 1.2. configure mode
      * - 1.3. save / load mode
+     * - 1.4. Out
      */
     void run();
     
@@ -79,7 +80,7 @@ SynthEngine::SynthEngine()
 
     // init to the loops
     m_main_loop = std::make_unique<MainLoop>(m_state);
-    m_configure_loop = std::make_unique<ConfigureLoop>(m_state);
+    m_configure_loop = std::make_unique<ConfigureLoop>(m_state, m_synthesizer);
     m_play_loop = std::make_unique<PlayLoop>(m_state, m_synthesizer, m_input_handler, m_audio_player);
 
     // Set Defualt Config
@@ -100,19 +101,23 @@ void SynthEngine::run()
     *m_state.get() = SynthState::Main;
     while(*m_state.get() != SynthState::Out)
     { 
-        std::ostringstream oss;
-        m_synthesizer.get()->getConfigAsStr(oss);
         switch (*m_state.get())
         {
         case SynthState::Main:
             m_main_loop.get()->run_loop();
             break;
         case SynthState::Configure:
-            m_configure_loop.get()->set_synth_data_stream(oss);
             m_configure_loop.get()->run_loop();
+            break;
+        case SynthState::Configure_Envelop:
+            m_configure_loop.get()->set_envelop_loop();
             break;
         case SynthState::Play:
             m_play_loop.get()->run_loop();
+            *m_state.get() = SynthState::Main;
+            break;
+        case SynthState::Save_Load:
+            std::cout << "Save/ Load current config\n";
             *m_state.get() = SynthState::Main;
             break;
         default:

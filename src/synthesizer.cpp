@@ -76,6 +76,13 @@ void Synthesizer::set_sustain_time(float sustain_time) {
     }
 }
 
+float Synthesizer::get_attack_time () const{return m_attack_time;}
+float Synthesizer::get_decay_time  () const{return m_deacy_time;}
+float Synthesizer::get_decay_level () const{return m_deacy_time;}
+float Synthesizer::get_sustain_time() const{return m_sustain_time;}
+float Synthesizer::get_release_time() const{return m_release_time;}
+
+
 void Synthesizer::set_synth_freq(float Hz) {
   m_synth_freq = Hz;
   for (auto &osc : m_oscillators) {

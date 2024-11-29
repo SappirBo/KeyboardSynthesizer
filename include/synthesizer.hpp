@@ -32,8 +32,16 @@ public:
     void set_decay_time(float);
     void set_sustain_time(float);
     void set_release_time(float);
-
     void set_decay_level(float);
+    
+    
+    float get_attack_time () const;
+    float get_decay_time  () const;
+    float get_decay_level () const;
+    float get_sustain_time() const;
+    float get_release_time() const;
+
+    
 
     void getConfigAsStr(std::ostream& oss);
 
