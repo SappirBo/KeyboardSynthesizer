@@ -25,12 +25,4 @@ public:
     /** Run the loop */
     virtual void run_loop() = 0;
 };
-
-BaseLoop::BaseLoop(std::shared_ptr<SynthState> state): m_state(state) {}
-
-void BaseLoop::clear_console()
-{
-    system("clear");
-}
-
 #endif

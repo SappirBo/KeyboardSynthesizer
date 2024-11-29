@@ -28,6 +28,10 @@ set(SOURCES
     src/audio_player.cpp
     src/input_handler.cpp
     src/synthesizer.cpp
+    src/main_loop.cpp
+    src/configure_loop.cpp
+    src/play_loop.cpp
+    src/base_loop.cpp
 )
 
 set(HEADERS
@@ -41,6 +45,8 @@ set(HEADERS
     include/synthesizer.hpp
     include/synth_state.hpp
     include/base_loop.hpp
+    include/main_loop.hpp
+    include/configure_loop.hpp
     include/play_loop.hpp
 )
 
