@@ -36,7 +36,9 @@ public:
     double getIntervalAsHz(uint); 
 
     void setScale(std::string);
-
     void setKey(std::string);
+
+    std::string getScale();
+    std::string getKey();
 };
 #endif

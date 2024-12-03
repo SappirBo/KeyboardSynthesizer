@@ -22,7 +22,6 @@ public:
         std::shared_ptr<AudioPlayer::PortAudioPlayer> audio);
     ~PlayLoop();
     void run_loop();
-    float get_Hz(int32_t input);
 };
 
 #endif

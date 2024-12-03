@@ -9,6 +9,9 @@ enum class SynthState{
     Play,
     Configure,
     Configure_Envelop,
+    Configure_Key,
+    Configure_Scale,
+    Configure_Key_and_Scale,
     Save_Load,
     Out,
     Defualt

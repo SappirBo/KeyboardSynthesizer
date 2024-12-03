@@ -212,3 +212,14 @@ void Synthesizer::setSynthKey(std::string key_name)
 }
 
 
+std::string Synthesizer::getSynthKey()
+{
+  return m_scale_map.getKey();
+}
+
+std::string Synthesizer::getSynthScale()
+{
+  return m_scale_map.getScale();
+}
+
+

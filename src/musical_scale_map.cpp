@@ -52,11 +52,8 @@ double MusicScaleMap::getIntervalAsHz(uint input)
     double interval{0.0};
     for(int i=0; i<input; ++i)
     {
-        std::cout << "(i % scale_size)=("<<i<<"%"<<scale_size<<")="<< (i % scale_size)<< "\n" <<
-        "<m_scales_interval_map[m_current_scale].at(i % scale_size)="<<m_scales_interval_map[m_current_scale].at(i % scale_size)<<std::endl;
         interval += m_scales_interval_map[m_current_scale].at(i % scale_size);
     }
-    std::cout << "input="<<input<<" |scale_size="<<scale_size<<" |interval="<<interval<<std::endl;
     return calculateFrequency(
         m_key_to_freq[m_current_base_note],
         interval
@@ -66,7 +63,6 @@ double MusicScaleMap::getIntervalAsHz(uint input)
 double MusicScaleMap::calculateFrequency(double f0, double tonesAbove) {
     double semitones = tonesAbove * 2;
     double freq = f0 * std::pow(2.0, semitones / 12.0);
-    std::cout << "f0 = " << f0 << " | semitones = " << semitones << " | freq =" << freq << "\n";
     return freq;
 }
 
@@ -79,3 +75,6 @@ void  MusicScaleMap::setKey(std::string key)
 {
     m_current_base_note = key;
 }
+
+std::string MusicScaleMap::getKey(){return m_current_base_note;}
+std::string MusicScaleMap::getScale(){return m_current_scale;}

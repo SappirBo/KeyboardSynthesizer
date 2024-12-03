@@ -45,9 +45,10 @@ public:
     float get_release_time() const;
 
     void setSynthKey(std::string);
-
     void setSynthScale(std::string);
-
+    std::string getSynthKey();
+    std::string getSynthScale();
+    
     void getConfigAsStr(std::ostream& oss);
 
     void note_on();
