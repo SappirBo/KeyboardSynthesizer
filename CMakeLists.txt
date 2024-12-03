@@ -32,6 +32,7 @@ set(SOURCES
     src/configure_loop.cpp
     src/play_loop.cpp
     src/base_loop.cpp
+    src/musical_scale_map.cpp
 )
 
 set(HEADERS
@@ -48,6 +49,7 @@ set(HEADERS
     include/main_loop.hpp
     include/configure_loop.hpp
     include/play_loop.hpp
+    include/musical_scale_map.hpp
 )
 
 # Add executable target

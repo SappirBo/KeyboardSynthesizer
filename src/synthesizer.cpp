@@ -82,6 +82,11 @@ float Synthesizer::get_decay_level () const{return m_deacy_time;}
 float Synthesizer::get_sustain_time() const{return m_sustain_time;}
 float Synthesizer::get_release_time() const{return m_release_time;}
 
+void Synthesizer::insertInput(int input)
+{
+  float Hz = m_scale_map.getIntervalAsHz(input - 97);
+  set_synth_freq(Hz); 
+}
 
 void Synthesizer::set_synth_freq(float Hz) {
   m_synth_freq = Hz;
@@ -195,3 +200,15 @@ void Synthesizer::getConfigAsStr(std::ostream& oss)
   oss << space << "Sustain (ms):   " << m_sustain_time << "\n";
   oss << space << "Release (ms):   " << m_release_time << "\n";
 }
+
+void Synthesizer::setSynthScale(std::string scale_name)
+{
+  m_scale_map.setScale(scale_name);
+}
+
+void Synthesizer::setSynthKey(std::string key_name)
+{
+  m_scale_map.setKey(key_name);
+}
+
+

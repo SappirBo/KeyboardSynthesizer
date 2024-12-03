@@ -2,6 +2,7 @@
 #define Synthesizer_HPP
 
 #include "oscillator.hpp"
+#include "musical_scale_map.hpp"
 #include "portaudio.h"
 #include <mutex>
 #include <unordered_map>
@@ -17,7 +18,9 @@ private:
     float m_deacy_level{0.01f};
     float m_deacy_time{0.01f};
     float m_sustain_time{1.00f};   
-    float m_release_time{0.1f};       
+    float m_release_time{0.1f};
+
+    MusicScaleMap m_scale_map;  
 
 public:
     Synthesizer();
@@ -41,7 +44,9 @@ public:
     float get_sustain_time() const;
     float get_release_time() const;
 
-    
+    void setSynthKey(std::string);
+
+    void setSynthScale(std::string);
 
     void getConfigAsStr(std::ostream& oss);
 
@@ -49,6 +54,9 @@ public:
     void note_off();
 
     paData &get_synth_paData();
+
+    /** insert user input (0-25) into the synth*/
+    void insertInput(int);
 
     void set_synth_freq(float);
 
@@ -58,5 +66,6 @@ public:
                             const PaStreamCallbackTimeInfo *timeInfo,
                             PaStreamCallbackFlags statusFlags, void *userData);
 };
+
 
 #endif

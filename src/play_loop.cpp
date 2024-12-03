@@ -1,6 +1,5 @@
 #include "play_loop.hpp"
 
-
 PlayLoop::PlayLoop(std::shared_ptr<SynthState> state, 
         std::shared_ptr<Synthesizer> synth, 
         std::shared_ptr<InputHandler> input, 
@@ -25,8 +24,9 @@ void PlayLoop::run_loop()
     while (flag) {
         m_input_handler.get()->get_input_from_user();
         if (m_input_handler.get()->get_current_val() >= 97 && m_input_handler.get()->get_current_val() <= 122) {
-            float Hz = get_Hz(m_input_handler.get()->get_current_val());
-            m_synthesizer.get()->set_synth_freq(Hz);
+            // float Hz = get_Hz(m_input_handler.get()->get_current_val());
+            // m_synthesizer.get()->set_synth_freq(Hz);
+            m_synthesizer.get()->insertInput(m_input_handler.get()->get_current_val());
             m_synthesizer.get()->note_on();
         } else {
             m_synthesizer.get()->note_off();

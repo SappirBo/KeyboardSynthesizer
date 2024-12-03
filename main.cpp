@@ -10,7 +10,8 @@
 #include <iostream>
 #include <unordered_map>
 
-int32_t main() {
+int32_t main() 
+{
   std::cout << "Keyboard Synthesizer Project" << std::endl;
   SynthEngine& synth_engine = SynthEngine::getSynthEngine();
   synth_engine.run();
