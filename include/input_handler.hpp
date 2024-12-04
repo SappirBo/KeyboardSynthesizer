@@ -8,8 +8,8 @@
 class InputHandler
 {
 private:
-    int32_t m_current_val{-1}; 
-
+    int32_t m_current_val{-1};
+    struct termios m_old_termios;  // Store old terminal settings
     char getch();
 
 public:

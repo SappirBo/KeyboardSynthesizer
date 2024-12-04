@@ -8,7 +8,6 @@ ConfigureLoop::~ConfigureLoop()
 {
 }
 
-
 void ConfigureLoop::run_loop()
 {
     clear_console();
@@ -110,7 +109,6 @@ float ConfigureLoop::get_param_from_user(const std::string param_name, const flo
     std::cin >> f;
     return f;
 }
-
 
 void ConfigureLoop::set_key_and_scale_loop()
 {
