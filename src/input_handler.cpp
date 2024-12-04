@@ -26,12 +26,12 @@ InputHandler::~InputHandler()
 
 
 
-int32_t InputHandler::get_current_val()
+int32_t InputHandler::getCurrentVal()
 {
     return m_current_val;
 }
 
-void InputHandler::get_input_from_user()
+void InputHandler::getInputFromUser()
 {
     m_current_val = getch();
 }

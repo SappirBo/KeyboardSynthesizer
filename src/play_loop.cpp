@@ -22,9 +22,9 @@ void PlayLoop::run_loop()
     }
 
     while (flag) {
-        m_input_handler.get()->get_input_from_user();
-        if (m_input_handler.get()->get_current_val() >= 97 && m_input_handler.get()->get_current_val() <= 122) {
-            m_synthesizer.get()->insertInput(m_input_handler.get()->get_current_val());
+        m_input_handler.get()->getInputFromUser();
+        if (m_input_handler.get()->getCurrentVal() >= 97 && m_input_handler.get()->getCurrentVal() <= 122) {
+            m_synthesizer.get()->insertInput(m_input_handler.get()->getCurrentVal());
             m_synthesizer.get()->note_on();
         } else {
             m_synthesizer.get()->note_off();

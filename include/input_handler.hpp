@@ -16,8 +16,8 @@ public:
     InputHandler();
     ~InputHandler();
     
-    void get_input_from_user();
-    int32_t get_current_val();
+    void getInputFromUser();
+    int32_t getCurrentVal();
 
     bool operator>(const int32_t& other) const;
     bool operator>=(const int32_t& other) const;
