@@ -19,6 +19,8 @@ public:
     void getInputFromUser();
     int32_t getCurrentVal();
 
+    char reinterpretInput(const char input);
+
     bool operator>(const int32_t& other) const;
     bool operator>=(const int32_t& other) const;
     bool operator<(const int32_t& other) const;

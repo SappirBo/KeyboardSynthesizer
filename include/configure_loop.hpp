@@ -20,7 +20,7 @@ public:
 
     void set_synth_data_stream(const std::ostringstream& oss);
 
-    void run_loop();
+    void runLoop();
 
     void set_envelop_loop();
 

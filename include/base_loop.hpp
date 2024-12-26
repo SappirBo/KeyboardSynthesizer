@@ -13,7 +13,7 @@ private:
 protected:
     std::shared_ptr<SynthState> m_state;
 
-    void clear_console();
+    void clearConsole();
     
 public:
     BaseLoop() = delete; // delete the defualt constractor
@@ -23,6 +23,6 @@ public:
     ~BaseLoop() = default;
 
     /** Run the loop */
-    virtual void run_loop() = 0;
+    virtual void runLoop() = 0;
 };
 #endif

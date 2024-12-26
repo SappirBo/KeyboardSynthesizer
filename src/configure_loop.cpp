@@ -8,9 +8,9 @@ ConfigureLoop::~ConfigureLoop()
 {
 }
 
-void ConfigureLoop::run_loop()
+void ConfigureLoop::runLoop()
 {
-    clear_console();
+    clearConsole();
     std::cout << m_line_str << "\n" << "Synthesizer Configuration:" << std::endl;
 
     std::ostringstream oss;
@@ -49,7 +49,7 @@ void ConfigureLoop::run_loop()
 
 void ConfigureLoop::set_envelop_loop()
 {
-    clear_console();
+    clearConsole();
     std::ostringstream oss;
     oss << "1. Set Attack  (" << m_synthesizer.get()->get_attack_time() << " seconds)\n";
     oss << "2. Set Decay   (time =" << m_synthesizer.get()->get_decay_time() << " seconds, level = " << m_synthesizer.get()->get_decay_level() << ")\n";
@@ -100,7 +100,7 @@ void ConfigureLoop::set_envelop_loop()
 
 float ConfigureLoop::get_param_from_user(const std::string param_name, const float min, const float max)
 {
-    clear_console();
+    clearConsole();
     std::ostringstream oss;
     oss << "Please add " << param_name << " [" << min << "-"<<max << "] :\n";
     std::cout << m_line_str << "\n" << oss.str();
@@ -112,7 +112,7 @@ float ConfigureLoop::get_param_from_user(const std::string param_name, const flo
 
 void ConfigureLoop::set_key_and_scale_loop()
 {
-    clear_console();
+    clearConsole();
     std::ostringstream oss;
     oss << "1. Set Key   (current: " << m_synthesizer.get()->getSynthKey() << ")\n";
     oss << "2. Set Scale (current:" << m_synthesizer.get()->getSynthScale() << ")\n";
@@ -139,7 +139,7 @@ void ConfigureLoop::set_key_and_scale_loop()
 
 void ConfigureLoop::set_key_loop()
 {
-    clear_console();
+    clearConsole();
     std::ostringstream oss;
     oss << "1. C\n" << "2. C#/Db\n" << "3. D\n" << "4. D#/Eb\n" << "5. E\n" << "6. F\n" << "7. F#/Gb\n" ;
     oss << "8. G\n" << "9. G#/Ab\n" << "10. A\n" << "11. A#/Bb\n" << "12. B\n" ;
@@ -218,7 +218,7 @@ void ConfigureLoop::set_key_loop()
 
 void ConfigureLoop::set_scale_loop()
 {
-    clear_console();
+    clearConsole();
     std::ostringstream oss;
     oss << "1.  major\n" << "2.  Minor_Pentatonic\n" << "3.  Major_Pentatonic\n" << "4.  Blues\n" 
         << "5.  Diminished\n" << "6.  Natural_Minor\n" << "7.  Melodic_Minor\n"  << "8.  Harmonic_Minor\n" 

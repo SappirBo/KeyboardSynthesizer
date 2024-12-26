@@ -13,7 +13,7 @@ private:
 public:
     MainLoop(std::shared_ptr<SynthState> state);
     ~MainLoop();
-    void run_loop();
+    void runLoop();
 };
 
 

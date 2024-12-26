@@ -2,7 +2,7 @@
 
 BaseLoop::BaseLoop(std::shared_ptr<SynthState> state): m_state(state) {}
 
-void BaseLoop::clear_console()
+void BaseLoop::clearConsole()
 {
     system("clear");
 }

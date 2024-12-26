@@ -21,7 +21,7 @@ public:
         std::shared_ptr<InputHandler> input, 
         std::shared_ptr<AudioPlayer::PortAudioPlayer> audio);
     ~PlayLoop();
-    void run_loop();
+    void runLoop();
 };
 
 #endif

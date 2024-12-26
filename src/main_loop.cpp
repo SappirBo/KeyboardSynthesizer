@@ -5,9 +5,9 @@ MainLoop::MainLoop(std::shared_ptr<SynthState> state): BaseLoop(state){}
 
 MainLoop::~MainLoop(){}
 
-void MainLoop::run_loop()
+void MainLoop::runLoop()
 {
-    clear_console();
+    clearConsole();
     std::string str;
     str += "    1. Play\n";
     str += "    2. Configure Synth\n";

@@ -12,16 +12,17 @@ PlayLoop::~PlayLoop()
 {
 }
 
-void PlayLoop::run_loop()
+void PlayLoop::runLoop()
 {
-    clear_console();
+    clearConsole();
     std::cout << "Player mode (a-z to play, any other key to exit)\n";
     bool flag{true};
     if (m_audio_player.get()->is_stream_active() == false) {
         m_audio_player.get()->start_stream();
     }
 
-    while (flag) {
+    while (flag) 
+    {
         m_input_handler.get()->getInputFromUser();
         if (m_input_handler.get()->getCurrentVal() >= 97 && m_input_handler.get()->getCurrentVal() <= 122) {
             m_synthesizer.get()->insertInput(m_input_handler.get()->getCurrentVal());

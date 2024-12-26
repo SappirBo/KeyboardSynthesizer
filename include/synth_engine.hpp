@@ -55,7 +55,7 @@ public:
     
     void set_defualt_config();
 
-    void clear_console();
+    void clearConsole();
 };
 
 
@@ -104,10 +104,10 @@ void SynthEngine::run()
         switch (*m_state.get())
         {
         case SynthState::Main:
-            m_main_loop.get()->run_loop();
+            m_main_loop.get()->runLoop();
             break;
         case SynthState::Configure:
-            m_configure_loop.get()->run_loop();
+            m_configure_loop.get()->runLoop();
             break;
         case SynthState::Configure_Envelop:
             m_configure_loop.get()->set_envelop_loop();
@@ -122,7 +122,7 @@ void SynthEngine::run()
             m_configure_loop.get()->set_scale_loop();
             break;
         case SynthState::Play:
-            m_play_loop.get()->run_loop();
+            m_play_loop.get()->runLoop();
             *m_state.get() = SynthState::Main;
             break;
         case SynthState::Save_Load:
@@ -136,7 +136,7 @@ void SynthEngine::run()
     }
 }
 
-void SynthEngine::clear_console()
+void SynthEngine::clearConsole()
 {
     system("clear");
 }
