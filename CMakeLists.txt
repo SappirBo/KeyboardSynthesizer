@@ -4,8 +4,19 @@ project(KeyboardSynthesizer)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+enable_testing()
+
 # Find pkg-config
 find_package(PkgConfig REQUIRED)
+
+include(FetchContent)
+
+FetchContent_Declare(
+    json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG        v3.11.2
+)
+FetchContent_MakeAvailable(json)
 
 # Find PortAudio using pkg-config
 pkg_check_modules(PORTAUDIO REQUIRED portaudio-2.0)
@@ -59,6 +70,7 @@ add_executable(KeyboardSynthesizer_exe ${SOURCES} ${HEADERS})
 target_link_libraries(KeyboardSynthesizer_exe
     PRIVATE
         ${PORTAUDIO_LIBRARIES}
+        nlohmann_json::nlohmann_json
 )
 
 # Optionally, add any necessary compile flags
@@ -66,3 +78,7 @@ target_compile_options(KeyboardSynthesizer_exe
     PRIVATE
         ${PORTAUDIO_CFLAGS_OTHER}
 )
+
+
+# ---- Add the test subdirectory ----
+add_subdirectory(test)
