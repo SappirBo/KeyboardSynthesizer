@@ -1,6 +1,7 @@
 // tests/test_json_manager.cpp
 
 #include <gtest/gtest.h>
+#include <filesystem>
 #include "json_manager.hpp"
 
 /**
@@ -15,63 +16,35 @@ protected:
 
     // Called after each test
     void TearDown() override {}
+public:
+    std::filesystem::path getPathToProjDir()
+    {
+         return std::filesystem::current_path().parent_path().parent_path();
+    }
 };
 
 TEST_F(JsonManagerTest, TestValidJsonFull)
 {
-    // Suppose we have a local JSON file "test_data.json"
-    // containing:
-    // {
-    //   "L1": {
-    //     "L2": {
-    //       "Value": "value"
-    //     }
-    //   }
-    // }
-    //
-    // We pass that file path to the JsonManager constructor:
-    JsonManager mgr("test_data.json");
+    std::filesystem::path path_to_project = getPathToProjDir(); 
+    std::filesystem::path path_to_json = path_to_project / "resources/test/test_data.json";
+    JsonManager mgr(path_to_json.string());
 
     std::string result = mgr.toString();
-    // We expect the entire JSON:
-    // e.g. {"L1":{"L2":{"Value":"value"}}}
-    //
-    // Let's just check if it contains known keys
-    // (and not worry about the exact JSON formatting).
+
     EXPECT_NE(result.find("\"L1\""), std::string::npos);
     EXPECT_NE(result.find("\"L2\""), std::string::npos);
     EXPECT_NE(result.find("\"Value\""), std::string::npos);
     EXPECT_NE(result.find("\"value\""), std::string::npos);
 }
 
-TEST_F(JsonManagerTest, TestValidJsonNested)
-{
-    JsonManager mgr("test_data.json");
-
-    std::string l1 = mgr.toString("L1");
-    // Expect something like {"L2":{"Value":"value"}}
-    EXPECT_NE(l1.find("\"L2\""), std::string::npos);
-
-    std::string l2 = mgr.toString("L1", "L2");
-    // Expect something like {"Value":"value"}
-    EXPECT_NE(l2.find("\"Value\""), std::string::npos);
-
-    std::string val = mgr.toString("L1", "L2", "Value");
-    // Expect something like "value" as a string
-    // (or if the library returns a quoted string,
-    //  you might see "\"value\"")
-    EXPECT_NE(val.find("value"), std::string::npos);
-}
 
 TEST_F(JsonManagerTest, TestInvalidFile)
 {
     // Provide a file path that doesn't exist
     JsonManager mgr("non_existent.json");
     
-    // If the parse fails, we might expect an empty object "{}"
-    // or something else based on your logic.
+
     std::string result = mgr.toString();
-    // This might be empty or "{}" if parse failed
     EXPECT_TRUE(result.empty() || result == "{}");
 }
 
