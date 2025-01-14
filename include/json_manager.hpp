@@ -19,6 +19,7 @@ public:
     ~JsonManager();
 
     std::string toString() const;
+    
 };
 
 JsonManager::JsonManager(const std::string &path):
@@ -47,14 +48,5 @@ JsonManager::~JsonManager()
 
 std::string JsonManager::toString() const
 {
-    // if constexpr (sizeof...(keys) == 0)
-    // {
     return m_json_data.dump();
-    // }
-    // else
-    // {
-    //     nlohmann::json temp = m_json_data;
-    //     ((temp = temp[keys]), ...);
-    //     return temp.dump();
-    // }
 }

@@ -37,7 +37,6 @@ TEST_F(JsonManagerTest, TestValidJsonFull)
     EXPECT_NE(result.find("\"value\""), std::string::npos);
 }
 
-
 TEST_F(JsonManagerTest, TestInvalidFile)
 {
     // Provide a file path that doesn't exist
