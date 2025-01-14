@@ -19,7 +19,8 @@ protected:
 public:
     std::filesystem::path getPathToProjDir()
     {
-         return std::filesystem::current_path().parent_path().parent_path();
+        //  return std::filesystem::current_path().parent_path().parent_path();
+        return "/home/sappirb/code/KeyboardSynthesizer";
     }
 };
 
@@ -55,3 +56,20 @@ TEST_F(JsonManagerTest, TestEmptyPath)
     std::string result = mgr.toString(); 
     EXPECT_TRUE(result.empty() || result == "{}");
 }
+
+TEST_F(JsonManagerTest, TestScaleMap)
+{
+    JsonManager mgr("resources/etc/scale_map.json");
+
+    auto major = mgr.getData()["scales"]["major"];
+    std::array<float, 7>  major_expected = {1,1,0.5,1,1,1,0.5};
+
+    std::size_t i{0};
+    for(auto interval: major)
+    {
+        EXPECT_EQ(interval.get<float>(), major.at(i++));
+    }
+
+}
+
+

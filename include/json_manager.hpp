@@ -18,6 +18,7 @@ public:
     JsonManager(const std::string &path);
     ~JsonManager();
 
+    nlohmann::json getData();
     std::string toString() const;
     
 };
@@ -49,4 +50,9 @@ JsonManager::~JsonManager()
 std::string JsonManager::toString() const
 {
     return m_json_data.dump();
+}
+
+nlohmann::json JsonManager::getData()
+{
+    return m_json_data;
 }
