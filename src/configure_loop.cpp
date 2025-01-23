@@ -22,7 +22,6 @@ void ConfigureLoop::runLoop()
     str += "2. Set Envelope\n";
     str += "3. Set key and Scale\n";
     str += "4. Back to Main\n";
-    str += "5. Exit\n";
     std::cout << m_line_str << "\n" << str;
 
     char input;
@@ -42,7 +41,7 @@ void ConfigureLoop::runLoop()
         *m_state.get() = SynthState::Main;
         break;
     default:
-        *m_state.get() = SynthState::Out;
+        *m_state.get() = SynthState::Main;
         break;
     }
 }

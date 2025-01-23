@@ -21,6 +21,7 @@ void PlayLoop::runLoop()
         m_audio_player.get()->start_stream();
     }
 
+    m_input_handler.get()->inputHandlerOn();
     while (flag) 
     {
         m_input_handler.get()->getInputFromUser();
@@ -32,6 +33,7 @@ void PlayLoop::runLoop()
             flag = false;
         }
     }
+    m_input_handler.get()->inputHandlerOff();
     m_audio_player.get()->stop_stream();
 }
 

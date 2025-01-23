@@ -12,6 +12,9 @@ private:
     struct termios m_old_termios;  // Store old terminal settings
     char getch();
 
+    void startNonCanonicalInput();
+    void endNonCanonicalInput();
+
 public:
     InputHandler();
     ~InputHandler();
@@ -26,6 +29,9 @@ public:
     bool operator<(const int32_t& other) const;
     bool operator<=(const int32_t& other) const;
     bool operator==(const int32_t& other) const;
+
+    void inputHandlerOn(){startNonCanonicalInput();};   
+    void inputHandlerOff(){endNonCanonicalInput();};    
 };
 
 
