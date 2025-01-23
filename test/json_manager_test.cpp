@@ -1,13 +1,7 @@
-// tests/test_json_manager.cpp
-
 #include <gtest/gtest.h>
 #include <filesystem>
 #include "json_manager.hpp"
 
-/**
- * Test fixture for JsonManager tests.
- * You can put common setup/teardown code here if needed.
- */
 class JsonManagerTest : public ::testing::Test
 {
 protected:
@@ -69,6 +63,19 @@ TEST_F(JsonManagerTest, TestScaleMap)
     {
         EXPECT_EQ(interval.get<float>(), major.at(i++));
     }
+
+}
+
+
+TEST_F(JsonManagerTest, TestPathFromRoot)
+{
+    JsonManager mgr;
+
+    std::filesystem::path path_to_root = mgr.getPathFromRoot();
+    EXPECT_TRUE(path_to_root.is_absolute());
+
+    std::filesystem::path path_to_resource_etc = mgr.getPathFromRoot("/resource/etc");
+    EXPECT_TRUE(path_to_root.empty() == false);
 
 }
 

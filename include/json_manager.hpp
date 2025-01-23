@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 
 class JsonManager
@@ -15,17 +16,29 @@ private:
      */
     bool parseJson();
 public:
+    JsonManager() = default;
     JsonManager(const std::string &path);
-    ~JsonManager();
+    ~JsonManager() = default;
 
     nlohmann::json getData();
+    void setPathToJson(const std::string &path);
     std::string toString() const;
+    std::filesystem::path getPathFromRoot(const std::filesystem::path& path = "");
     
 };
 
 JsonManager::JsonManager(const std::string &path):
     m_path_to_json(path)
 {
+    if (!parseJson())
+    {
+        std::cout << "[JsonManager] Error! Wrong Json path is given to read! path = " << m_path_to_json << std::endl;
+    }
+}
+
+void JsonManager::setPathToJson(const std::string &path)
+{
+    m_path_to_json = path;
     if (!parseJson())
     {
         std::cout << "[JsonManager] Error! Wrong Json path is given to read! path = " << m_path_to_json << std::endl;
@@ -43,10 +56,6 @@ bool JsonManager::parseJson()
     return true;
 }
 
-JsonManager::~JsonManager()
-{
-}
-
 std::string JsonManager::toString() const
 {
     return m_json_data.dump();
@@ -55,4 +64,11 @@ std::string JsonManager::toString() const
 nlohmann::json JsonManager::getData()
 {
     return m_json_data;
+}
+
+std::filesystem::path JsonManager::getPathFromRoot(const std::filesystem::path& path)
+{
+    std::filesystem::path path_to_root{std::filesystem::current_path().parent_path()};
+    path_to_root += path; 
+     return  path_to_root;
 }

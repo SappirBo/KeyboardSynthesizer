@@ -1,4 +1,5 @@
 #include "musical_scale_map.hpp"
+#include "json_manager.hpp"
 #include <iostream>
 
 
@@ -16,18 +17,22 @@ MusicScaleMap::~MusicScaleMap()
 
 void MusicScaleMap::setScaleIntervalsMap()
 {
-    m_scales_interval_map["major"]            = {1,1,0.5,1,1,1,0.5};
-    m_scales_interval_map["Minor_Pentatonic"] = {1.5,1,1,1.5,1};
-    m_scales_interval_map["Major_Pentatonic"] = {1,1,1.5,1,1.5};
-    m_scales_interval_map["Blues"]            = {1.5,1,0.5,0.5,1.5,1};
-    m_scales_interval_map["Diminished"]       = {1,0.5,1,0.5,1,0.5,1,0.5};
-    m_scales_interval_map["Natural_Minor"]    = {1,0.5,1,1,0.5,1,1};
-    m_scales_interval_map["Melodic_Minor"]    = {1,0.5,1,1,1,1,0.5};
-    m_scales_interval_map["Harmonic_Minor"]   = {1,0.5,1,1,0.5,1.5,1};
-    m_scales_interval_map["Dorian_Scale"]     = {1,0.5,1,1,1,0.5,1};
-    m_scales_interval_map["Phrygian_Scale"]   = {0.5,1,1,1,0.5,1,1};
-    m_scales_interval_map["Lydian_Scale"]     = {1,1,1,0.5,1,1,0.5};
-    m_scales_interval_map["Mixolydian_Scale"] = {1,1,0.5,1,1,0.5,1};
+    JsonManager json_manager;
+    std::filesystem::path relative_path_to_resource{"/resources/etc/scale_map.json"};
+    std::filesystem::path absolute_path_to_root = json_manager.getPathFromRoot(relative_path_to_resource);
+    json_manager.setPathToJson(absolute_path_to_root);
+
+    auto data = json_manager.getData();
+    
+    if (!data.contains("scales") || !data["scales"].is_object()) {
+        std::cerr << "[MusicScaleMap] Error: 'scales' object not found in JSON." << std::endl;
+        return;
+    }
+    
+    for (auto& [scale_name, intervals_json] : data["scales"].items()) {
+        std::vector<double> intervals = intervals_json.get<std::vector<double>>();
+        m_scales_interval_map[scale_name] = intervals;
+    }
 }
 
 void MusicScaleMap::setKeyToFreq()
