@@ -21,13 +21,15 @@ public:
     void set_synth_data_stream(const std::ostringstream& oss);
 
     void runLoop();
+    void setEnvelopLoop();
+    
+    void setKeyAndScaleLoop();
+    void setKeyLoop();
+    void setScaleLoop();
 
-    void set_envelop_loop();
-
-    void set_key_and_scale_loop();
-    void set_key_loop();
-    void set_scale_loop();
-
+    void setOscLoop();
+    void addOscLoop();
+    void removeOscLoop();
     float get_param_from_user(const std::string param_name, const float min, const float max);
 };
 

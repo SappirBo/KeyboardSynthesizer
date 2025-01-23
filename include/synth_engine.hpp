@@ -109,17 +109,20 @@ void SynthEngine::run()
         case SynthState::Configure:
             m_configure_loop.get()->runLoop();
             break;
+        case SynthState::Configure_OSC:
+            m_configure_loop.get()->setOscLoop();
+            break;
         case SynthState::Configure_Envelop:
-            m_configure_loop.get()->set_envelop_loop();
+            m_configure_loop.get()->setEnvelopLoop();
             break;
         case SynthState::Configure_Key_and_Scale:
-            m_configure_loop.get()->set_key_and_scale_loop();
+            m_configure_loop.get()->setKeyAndScaleLoop();
             break;
         case SynthState::Configure_Key:
-            m_configure_loop.get()->set_key_loop();
+            m_configure_loop.get()->setKeyLoop();
             break;
         case SynthState::Configure_Scale:
-            m_configure_loop.get()->set_scale_loop();
+            m_configure_loop.get()->setScaleLoop();
             break;
         case SynthState::Play:
             m_play_loop.get()->runLoop();
@@ -143,10 +146,7 @@ void SynthEngine::clearConsole()
 
 void SynthEngine::set_defualt_config()
 {
-    // m_synthesizer.get()->add_oscillator(4, WaveType::TRIANGLE);
-    // m_synthesizer.get()->add_oscillator(5, WaveType::SINE);
     m_synthesizer.get()->add_oscillator(1, WaveType::SINE);
-    // m_synthesizer.get()->add_oscillator(1, WaveType::TRIANGLE);
 
     m_synthesizer.get()->set_glide(0.001);
 

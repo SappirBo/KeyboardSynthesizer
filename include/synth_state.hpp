@@ -8,6 +8,7 @@ enum class SynthState{
     Main,
     Play,
     Configure,
+    Configure_OSC,
     Configure_Envelop,
     Configure_Key,
     Configure_Scale,

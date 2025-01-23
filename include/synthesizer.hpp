@@ -49,6 +49,8 @@ public:
     std::string getSynthKey();
     std::string getSynthScale();
     
+    void getConfigAsStrOscilators(std::ostream& oss);
+    void getConfigAsStrEnvelop(std::ostream& oss);
     void getConfigAsStr(std::ostream& oss);
 
     void note_on();

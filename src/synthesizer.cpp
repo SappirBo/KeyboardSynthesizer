@@ -8,6 +8,24 @@ void Synthesizer::add_oscillator(uint32_t octave, WaveType type) {
   m_oscillators.push_back(Oscillator{m_synth_freq, octave, type});
 }
 
+void Synthesizer::remove_oscillator(size_t index)
+{
+  if (index > m_oscillators.size())
+  {
+    std::cout << "[Synthesizer::remove_oscillator] Index Not in the vector size\n";
+    return;
+  }
+
+  if (m_oscillators.size() == 1)
+  {
+    m_oscillators.clear();
+    add_oscillator(1, WaveType::SINE);
+  }
+  else{
+    m_oscillators.erase(m_oscillators.begin() +  index);
+  }
+}
+
 void Synthesizer::note_on() {
   std::lock_guard<std::mutex> lock(m_mutex);
   for (auto &osc : m_oscillators) {
@@ -182,7 +200,7 @@ paData &Synthesizer::get_synth_paData() {
   return m_synth_paData;
 }
 
-void Synthesizer::getConfigAsStr(std::ostream& oss)
+void Synthesizer::getConfigAsStrOscilators(std::ostream& oss)
 {
   std::string space{"    "};
   oss << "Oscilators:\n";
@@ -193,12 +211,24 @@ void Synthesizer::getConfigAsStr(std::ostream& oss)
     osc.getOscDataAsStr(oss);
     oss <<"\n";
   }
+}
+
+void Synthesizer::getConfigAsStrEnvelop(std::ostream& oss)
+{
+  std::string space{"    "};
+
   oss << "Amplitude Envelop:\n";
   oss << space << "Attacl (ms):    " << m_attack_time << "\n";
   oss << space << "Decay  (ms):    " << m_deacy_time << "\n";
   oss << space << "Decay  (level): " << m_deacy_level << "\n";
   oss << space << "Sustain (ms):   " << m_sustain_time << "\n";
   oss << space << "Release (ms):   " << m_release_time << "\n";
+}
+
+void Synthesizer::getConfigAsStr(std::ostream& oss)
+{
+  getConfigAsStrOscilators(oss);
+  getConfigAsStrEnvelop(oss);
 }
 
 void Synthesizer::setSynthScale(std::string scale_name)
@@ -210,7 +240,6 @@ void Synthesizer::setSynthKey(std::string key_name)
 {
   m_scale_map.setKey(key_name);
 }
-
 
 std::string Synthesizer::getSynthKey()
 {

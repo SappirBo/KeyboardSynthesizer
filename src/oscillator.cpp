@@ -183,5 +183,12 @@ void Oscillator::set_osc_glide(float glide)
 }
 
 void Oscillator::getOscDataAsStr(std::ostream& oss){
-  oss << "Octave:" << m_octave << "| Freq: " << m_targetHz ;
+  std::string wave_type{""};
+  if (m_wave_type == WaveType::SINE){wave_type = "Sine";}
+  else if (m_wave_type == WaveType::SAWTOOTH){wave_type = "Sawtooth";}
+  else if (m_wave_type == WaveType::SQUARE){wave_type = "Square";}
+  else if (m_wave_type == WaveType::TRIANGLE){wave_type = "Triangle";}
+  else {wave_type = "Unknown";}
+  oss << "Octave:" << m_octave << "| Freq: " << m_targetHz << "| Wave: " <<  wave_type;
 }
+

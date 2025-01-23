@@ -30,7 +30,7 @@ void ConfigureLoop::runLoop()
     switch (input)
     {
     case '1':
-        // m_state = SynthState::Play;
+        *m_state.get() = SynthState::Configure_OSC;
         break;
     case '2':
         *m_state.get() = SynthState::Configure_Envelop;
@@ -47,7 +47,7 @@ void ConfigureLoop::runLoop()
     }
 }
 
-void ConfigureLoop::set_envelop_loop()
+void ConfigureLoop::setEnvelopLoop()
 {
     clearConsole();
     std::ostringstream oss;
@@ -110,7 +110,7 @@ float ConfigureLoop::get_param_from_user(const std::string param_name, const flo
     return f;
 }
 
-void ConfigureLoop::set_key_and_scale_loop()
+void ConfigureLoop::setKeyAndScaleLoop()
 {
     clearConsole();
     std::ostringstream oss;
@@ -137,7 +137,7 @@ void ConfigureLoop::set_key_and_scale_loop()
     }
 }
 
-void ConfigureLoop::set_key_loop()
+void ConfigureLoop::setKeyLoop()
 {
     clearConsole();
     std::ostringstream oss;
@@ -216,7 +216,7 @@ void ConfigureLoop::set_key_loop()
     }
 }
 
-void ConfigureLoop::set_scale_loop()
+void ConfigureLoop::setScaleLoop()
 {
     clearConsole();
     std::ostringstream oss;
@@ -294,3 +294,96 @@ void ConfigureLoop::set_scale_loop()
         break;
     }
 }
+
+void ConfigureLoop::setOscLoop()
+{
+    clearConsole();
+    std::cout << m_line_str << "\n" << "Synthesizer OSC Configuration:" << std::endl;
+
+    std::ostringstream oss;
+    m_synthesizer.get()->getConfigAsStrOscilators(oss);
+    oss << "1. Add Oscilator\n" << "2. Remove Oscilator\n"<<"3. Configuration\n"<<"4. Main\n";
+    std::cout << m_line_str << "\n" << oss.str();
+
+    int input;
+    std::cin >> input;
+    switch (input)
+    {
+        case 1:{
+            addOscLoop();
+            *m_state.get() = SynthState::Configure_OSC;
+            break;
+        }
+        case 2:{
+            removeOscLoop();
+            *m_state.get() = SynthState::Configure_OSC;
+            break;
+        }
+        case 3:{
+            *m_state.get() = SynthState::Configure;
+            break;
+        }
+        case 4:{
+            *m_state.get() = SynthState::Main;
+            break;
+        }
+        default:
+            *m_state.get() = SynthState::Main;
+            break;
+    }
+}
+
+void ConfigureLoop::addOscLoop()
+{
+    clearConsole();
+    WaveType wave_type;
+
+    std::ostringstream oss;
+    oss << "Wave Type: \n" << "     1. Sine\n" << "     2. Sawtooth\n" << "     3. Square\n" << "     4. Triangle\n";
+    std::cout << m_line_str << "\n" << oss.str();
+
+    int input;
+    std::cin >> input;
+    switch (input)
+    {
+        case 1:{
+            wave_type = WaveType::SINE;
+            break;
+        }
+        case 2:{
+            wave_type = WaveType::SAWTOOTH;
+            break;
+        }
+        case 3:{
+            wave_type = WaveType::SQUARE;
+            break;
+        }
+        case 4:{
+            wave_type = WaveType::TRIANGLE;
+            break;
+        }
+        default:{
+            wave_type = WaveType::SINE;
+            break;
+        }
+    }
+    
+    float octave = get_param_from_user("Octave ", 0.0, 24.0);
+    
+    m_synthesizer.get()->add_oscillator(octave,wave_type);
+}
+
+void ConfigureLoop::removeOscLoop()
+{
+    clearConsole();
+    std::ostringstream oss;
+    m_synthesizer.get()->getConfigAsStrOscilators(oss);
+    oss << "Chose Oscilator to remove:";
+    std::cout << m_line_str << "\n" << oss.str();
+
+    int input;
+    std::cin >> input;
+
+    m_synthesizer.get()->remove_oscillator(input);
+}
+

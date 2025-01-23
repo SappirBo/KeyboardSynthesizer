@@ -66,7 +66,6 @@ TEST_F(JsonManagerTest, TestScaleMap)
 
 }
 
-
 TEST_F(JsonManagerTest, TestPathFromRoot)
 {
     JsonManager mgr;
