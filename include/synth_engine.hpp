@@ -58,7 +58,6 @@ public:
     void clearConsole();
 };
 
-
 SynthEngine::SynthEngine()
 {
     std::cout << "SynthEngine: INIT\n";
@@ -100,7 +99,7 @@ void SynthEngine::run()
     std::cout << "Keyboard Synthesizer:" << std::endl;
     *m_state.get() = SynthState::Main;
     while(*m_state.get() != SynthState::Out)
-    { 
+    {
         switch (*m_state.get())
         {
         case SynthState::Main:

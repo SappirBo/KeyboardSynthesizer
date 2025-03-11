@@ -1,0 +1,21 @@
+{
+    "defualt-preset": 
+    {
+        "Synth-settings":{
+            "synth_freq": 16.35,
+            "synth_glide": 0.001,
+            "attack_time": 1,
+            "deacy_level": 1,
+            "deacy_time": 0,
+            "sustain_time": 1.00,   
+            "release_time": 0.5,
+            "scale_map": "major"
+        },
+        "Synth-oscillators": [
+            {
+                "Octave":  1, 
+                "WaveType": "Sine"
+            }
+        ]
+    }
+}

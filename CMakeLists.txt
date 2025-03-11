@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(KeyboardSynthesizer)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 enable_testing()
@@ -18,21 +18,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(json)
 
-# Find PortAudio using pkg-config
 pkg_check_modules(PORTAUDIO REQUIRED portaudio-2.0)
 
-# Verify that PortAudio was found
 if(NOT PORTAUDIO_FOUND)
     message(FATAL_ERROR "PortAudio not found. Please install it using 'sudo apt-get install portaudio19-dev'.")
 endif()
 
-# Include directories
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PORTAUDIO_INCLUDE_DIRS}
 )
 
-# Source and header files
 set(SOURCES
     main.cpp
     src/oscillator.cpp
@@ -63,22 +59,31 @@ set(HEADERS
     include/musical_scale_map.hpp
 )
 
-# Add executable target
+add_library(ConfigManager STATIC
+    src/config_manager.cpp
+    src/preset_manager.cpp
+    src/scale_manager.cpp
+    include/config_manager.hpp
+    include/preset_manager.hpp
+    include/scale_manager.hpp
+)
+target_link_libraries(ConfigManager
+    PRIVATE
+        nlohmann_json::nlohmann_json
+)
+
 add_executable(KeyboardSynthesizer_exe ${SOURCES} ${HEADERS})
 
-# Link PortAudio libraries
 target_link_libraries(KeyboardSynthesizer_exe
     PRIVATE
         ${PORTAUDIO_LIBRARIES}
         nlohmann_json::nlohmann_json
+        ConfigManager
 )
 
-# Optionally, add any necessary compile flags
 target_compile_options(KeyboardSynthesizer_exe
     PRIVATE
         ${PORTAUDIO_CFLAGS_OTHER}
 )
 
-
-# ---- Add the test subdirectory ----
 add_subdirectory(test)

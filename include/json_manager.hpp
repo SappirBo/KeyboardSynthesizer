@@ -6,15 +6,6 @@
 
 class JsonManager
 {
-private:
-    std::string m_path_to_json;
-    nlohmann::json m_json_data;
-    
-    /**
-     * Parses the json from the current m_path_to_json
-     * True for success, else false
-     */
-    bool parseJson();
 public:
     JsonManager() = default;
     JsonManager(const std::string &path);
@@ -24,7 +15,15 @@ public:
     void setPathToJson(const std::string &path);
     std::string toString() const;
     std::filesystem::path getPathFromRoot(const std::filesystem::path& path = "");
+private:
+    std::string m_path_to_json;
+    nlohmann::json m_json_data;
     
+    /**
+     * Parses the json from the current m_path_to_json
+     * True for success, else false
+     */
+    bool parseJson();   
 };
 
 JsonManager::JsonManager(const std::string &path):
