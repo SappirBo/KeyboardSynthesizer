@@ -3,12 +3,16 @@
 This is a open-source **Computer Keyboard based wave table Synthesizer** - that means that it's essentially a Synthesizer engine that run on your machine without need for specific DAW to run it, and the note selected from the computer keyboard. <br/> 
 
 ## Built With
-The program built and tested on WSL-2 machine, using the following:
-* C++
-  * nlohmann
-  * portaudio-2.0
-* CMake
-  
+This project is built and tested on a WSL-2 environment using modern development tools and libraries:
+
+* C++ (C++23): The synthesizer engine is implemented using the latest C++ standards.
+* nlohmann/json (v3.11.2): A widely used JSON library for configuration and data handling in C++.
+* PortAudio (portaudio-2.0): A cross-platform audio I/O library for real-time audio synthesis. On Ubuntu, install it with:
+```
+sudo apt-get install portaudio19-dev
+```
+* CMake (v3.12+): Used for project configuration and build management.
+
 ## Getting Started
 Before building the Keyboard Synthesizer, ensure your development environment meets the following prerequisites:
 
