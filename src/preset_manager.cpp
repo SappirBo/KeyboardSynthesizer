@@ -55,7 +55,7 @@ void PresetManager::savePreset(const std::string& preset_name, const PresetData&
 
     nlohmann::json osc_array = nlohmann::json::array();
     for (const auto& osc : preset_data.oscillators) {
-        uint32_t octave;
+        std::uint32_t octave;
         std::string waveType;
         std::tie(octave, waveType) = osc;
         osc_array.push_back({
@@ -122,6 +122,7 @@ std::vector<std::string> PresetManager::getPresetNames()
 std::expected<PresetData, std::string> PresetManager::loadPreset(const std::string& preset_name)
 {
     std::vector<std::string> preset_names = getPresetNames();
+
     if (std::find(preset_names.begin(), preset_names.end(), preset_name) == preset_names.end())
     {
         return std::unexpected("Preset does not exist.");
@@ -161,3 +162,14 @@ std::expected<PresetData, std::string> PresetManager::loadPreset(const std::stri
 
     return preset_data;
 }
+
+std::string PresetManager::getDeafualtPresetName() const
+{
+    return m_deafualt_preset;
+}
+
+void PresetManager::setPresetAsDeafualt(const std::string& preset_name)
+{
+    m_deafualt_preset = preset_name;
+}
+

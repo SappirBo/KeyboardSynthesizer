@@ -23,7 +23,7 @@ void AudioPlayer::PortAudioPlayer::set_audio_callback(
   m_userData = userData;
 }
 
-void AudioPlayer::PortAudioPlayer::set_output_params(uint32_t channels) {
+void AudioPlayer::PortAudioPlayer::set_output_params(std::uint32_t channels) {
   m_outputParameters.device =
       Pa_GetDefaultOutputDevice(); /* default output device */
   if (m_outputParameters.device == paNoDevice) {

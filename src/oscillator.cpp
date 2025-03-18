@@ -1,6 +1,6 @@
 #include "oscillator.hpp"
 
-Oscillator::Oscillator(float Hz, uint32_t octave, WaveType type)
+Oscillator::Oscillator(float Hz, std::uint32_t octave, WaveType type)
     : m_Hz(Hz), m_wave_type(type) {
   set_octave(octave);
   set_wave_table();
@@ -10,7 +10,7 @@ Oscillator::Oscillator(float Hz, uint32_t octave, WaveType type)
 
 paData &Oscillator::get_paData() { return m_paData; }
 
-void Oscillator::set_octave(uint32_t octave) { m_octave = octave; }
+void Oscillator::set_octave(std::uint32_t octave) { m_octave = octave; }
 
 void Oscillator::set_freq(float Hz) {
     m_targetHz = Hz * std::pow(2.0f, static_cast<float>(m_octave));;

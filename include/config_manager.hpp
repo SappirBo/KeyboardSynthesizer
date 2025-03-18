@@ -22,9 +22,9 @@ public:
     ConfigManager(std::filesystem::path path_to_workdir = "~/.config");
     ~ConfigManager();
 
-    PresetManager& getPresetManager() { return m_preset_manager; }
+    PresetManager& getPresetManager() { return m_preset_manager;}
 
-    ScaleManager& getScaleManager() { return m_scale_manager; } 
+    ScaleManager& getScaleManager() { return m_scale_manager;} 
 
 private:
     std::filesystem::path m_path_to_workdir;

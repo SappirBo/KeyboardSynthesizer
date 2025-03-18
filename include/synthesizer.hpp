@@ -8,26 +8,14 @@
 #include <unordered_map>
 
 class Synthesizer {
-private:
-    std::vector<Oscillator> m_oscillators;
-    paData m_synth_paData;
-    std::mutex m_mutex;
-    float m_synth_freq{16.35};
-    float m_synth_glide{0.1};
-    float m_attack_time{0.01f};
-    float m_deacy_level{0.01f};
-    float m_deacy_time{0.01f};
-    float m_sustain_time{1.00f};   
-    float m_release_time{0.1f};
-
-    MusicScaleMap m_scale_map;  
-
 public:
     Synthesizer();
     ~Synthesizer();
 
-    void add_oscillator(uint32_t octave, WaveType type);
+    void add_oscillator(std::uint32_t octave, WaveType type);
     void remove_oscillator(size_t index);
+    void clearOssilators();
+    size_t getOscillatorsSize() const;
 
     void set_glide(float);    
 
@@ -68,6 +56,21 @@ public:
                             unsigned long framesPerBuffer,
                             const PaStreamCallbackTimeInfo *timeInfo,
                             PaStreamCallbackFlags statusFlags, void *userData);
+
+private:
+    std::vector<Oscillator> m_oscillators;
+    paData m_synth_paData;
+    std::mutex m_mutex;
+    float m_synth_freq{16.35};
+    float m_synth_glide{0.1};
+    float m_attack_time{0.01f};
+    float m_deacy_level{0.01f};
+    float m_deacy_time{0.01f};
+    float m_sustain_time{1.00f};   
+    float m_release_time{0.1f};
+
+    MusicScaleMap m_scale_map;  
+                        
 };
 
 

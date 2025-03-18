@@ -5,6 +5,7 @@
 #include "pa_data.hpp"
 #include "wave_types.hpp"
 #include <cmath>
+#include <cstdint>
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -73,7 +74,7 @@ private:
     void set_sawtooth_wave_table();
     void set_empty_table();
 public:
-    Oscillator(float Hz, uint32_t octave, WaveType type);
+    Oscillator(float Hz, std::uint32_t octave, WaveType type);
     ~Oscillator() = default;
 
     paData &get_paData();
@@ -81,7 +82,7 @@ public:
     /**
      * Set Osc Octave, range of 0 to 12
      */
-    void set_octave(uint32_t);
+    void set_octave(std::uint32_t);
 
     /**
      * update target frequency, with offset of the Octave.

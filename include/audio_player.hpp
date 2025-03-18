@@ -4,6 +4,7 @@
 #include "audio_settings.hpp"
 #include "pa_data.hpp"
 #include <cmath>
+#include <cstdint>
 #include <iostream>
 #include <portaudio.h>
 
@@ -29,7 +30,7 @@ public:
   void set_audio_callback(PaStreamCallback *callback, void *userData);
 
   void Initialize();
-  void set_output_params(uint32_t channels);
+  void set_output_params(std::uint32_t channels);
   void open_stream();
   void set_stream_finish();
   bool is_stream_active();

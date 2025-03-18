@@ -4,7 +4,7 @@ Synthesizer::Synthesizer() {}
 
 Synthesizer::~Synthesizer() {}
 
-void Synthesizer::add_oscillator(uint32_t octave, WaveType type) {
+void Synthesizer::add_oscillator(std::uint32_t octave, WaveType type) {
   m_oscillators.push_back(Oscillator{m_synth_freq, octave, type});
 }
 
@@ -24,6 +24,15 @@ void Synthesizer::remove_oscillator(size_t index)
   else{
     m_oscillators.erase(m_oscillators.begin() +  index);
   }
+}
+
+void Synthesizer::clearOssilators()
+{
+  m_oscillators.clear();
+} 
+
+size_t Synthesizer::getOscillatorsSize() const {
+  return m_oscillators.size();
 }
 
 void Synthesizer::note_on() {

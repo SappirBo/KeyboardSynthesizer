@@ -12,26 +12,14 @@
 #include "main_loop.hpp"
 #include "configure_loop.hpp"
 #include "play_loop.hpp"
+#include "config_manager.hpp"
 
 
 /**
  * This class is the engine to all the project, controls the  system flow and active all params.
  */
 class SynthEngine
-{
-private:
-    SynthEngine();
-    static std::unique_ptr<SynthEngine> m_synth_engine;
-    std::shared_ptr<InputHandler> m_input_handler;
-    std::shared_ptr<Synthesizer> m_synthesizer;
-    std::shared_ptr<AudioPlayer::PortAudioPlayer> m_audio_player;
-
-    std::shared_ptr<SynthState> m_state;
-
-    std::unique_ptr<MainLoop> m_main_loop;
-    std::unique_ptr<ConfigureLoop> m_configure_loop;
-    std::unique_ptr<PlayLoop> m_play_loop;
-    
+{    
 public:
     ~SynthEngine();
 
@@ -56,6 +44,25 @@ public:
     void set_defualt_config();
 
     void clearConsole();
+
+    void setConfigManager(ConfigManager *config_manager);
+
+private:
+    SynthEngine();
+    static std::unique_ptr<SynthEngine> m_synth_engine;
+    std::shared_ptr<InputHandler> m_input_handler;
+    std::shared_ptr<Synthesizer> m_synthesizer;
+    std::shared_ptr<AudioPlayer::PortAudioPlayer> m_audio_player;
+
+    std::shared_ptr<SynthState> m_state;
+
+    std::unique_ptr<MainLoop> m_main_loop;
+    std::unique_ptr<ConfigureLoop> m_configure_loop;
+    std::unique_ptr<PlayLoop> m_play_loop;
+
+    ConfigManager *m_config_manager = nullptr;
+
+    bool setSynthToPresets(const PresetData& preset_data);
 };
 
 SynthEngine::SynthEngine()
@@ -153,7 +160,48 @@ void SynthEngine::set_defualt_config()
     m_synthesizer.get()->set_decay_level(1);
     m_synthesizer.get()->set_decay_time(0);
     m_synthesizer.get()->set_sustain_time(1);
-    m_synthesizer.get()->set_release_time(0.5);
+    m_synthesizer.get()->set_release_time(1.5);
 };
+
+bool SynthEngine::setSynthToPresets(const PresetData& preset_data)
+{
+    m_synthesizer.get()->set_glide(preset_data.synth_glide);
+
+    m_synthesizer.get()->set_attack_time(preset_data.attack_time);
+    m_synthesizer.get()->set_decay_level(preset_data.deacy_level);
+    m_synthesizer.get()->set_decay_time(preset_data.deacy_time);
+    m_synthesizer.get()->set_sustain_time(preset_data.sustain_time);
+    m_synthesizer.get()->set_release_time(preset_data.release_time);
+
+    m_synthesizer.get()->setSynthScale(preset_data.scale_map);
+
+    m_synthesizer.get()->clearOssilators();
+
+    for (const auto& osc : preset_data.oscillators) {
+        m_synthesizer.get()->add_oscillator(std::get<0>(osc), WaveType::SINE);
+    }
+    
+    if(m_synthesizer.get()->getOscillatorsSize() == 0)
+    {
+        m_synthesizer.get()->add_oscillator(1, WaveType::SINE);
+    }
+
+    return true;
+}
+
+void SynthEngine::setConfigManager(ConfigManager *config_manager)
+{
+    m_config_manager = config_manager;
+
+    std::string config_default = m_config_manager->getPresetManager().getDeafualtPresetName();
+
+    auto res = m_config_manager->getPresetManager().loadPreset(config_default);
+    if (!res) {
+        std::cerr << "Failed to load defualt preset\n";
+    }else{
+        std::cout << "Loaded defualt preset\n";
+        setSynthToPresets(res.value());
+    }
+}
 
 #endif
